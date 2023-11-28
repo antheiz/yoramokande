@@ -67,8 +67,12 @@
                 chart: {
                     events: {
                         drilldown: function (e) {
-                            // Mengubah judul saat drilldown
-                            this.setTitle({ text: 'Peta Distrik {point.properties.name}' });
+                            // Cek apakah event memiliki nama seri yang valid
+                            if (e.seriesOptions) {
+                                var distrikName = e.seriesOptions.name;
+                                // Mengubah judul menjadi "Peta Distrik [Nama Distrik]"
+                                this.setTitle({ text: 'Peta Distrik ' + distrikName });
+                            }
                         },
                         drillup: function (e) {
                             // Mengembalikan judul saat drillup
