@@ -62,17 +62,17 @@
             Highcharts.mapChart('container', {
                 // Pengaturan navigasi dan data peta
                 title: {
-                    text: 'Peta Kabupaten'
+                    text: 'Peta Kabupaten Lanny Jaya'
                 },
                 chart: {
                     events: {
                         drilldown: function (e) {
                             // Mengubah judul saat drilldown
-                            this.setTitle({ text: 'Peta Distrik' });
+                            this.setTitle({ text: 'Peta Distrik {point.properties.name}' });
                         },
                         drillup: function (e) {
                             // Mengembalikan judul saat drillup
-                            this.setTitle({ text: 'Peta Kabupaten' });
+                            this.setTitle({ text: 'Peta Kabupaten Lanny Jaya' });
                         }
                     }
                 },
