@@ -100,7 +100,7 @@
                         return {
                             id: feature.properties.id,
                             name: feature.properties.name,
-                            value: (feature.properties.id * 12345) % 100,
+                            value: feature.properties.jumlah_penduduk,
                             drilldown: feature.properties.id // Menambahkan referensi drilldown
                         };
                     }),
@@ -142,7 +142,7 @@
                                 return {
                                     id: feature.properties.id,
                                     name: feature.properties.name,
-                                    value: (feature.properties.id * 12345) % 100,
+                                    value: feature.properties.jumlah_penduduk,
                                 };
                             }),
                             joinBy: 'id'
