@@ -29,7 +29,6 @@
             try {
                 // Memuat data distrik dari API
                 const distrikResponse = await fetch('https://api.silanny.lannyjayakab.id/api/geospatial/distrik');
-                // const distrikResponse = await fetch('http://localhost:5000/api/districts');
                 districts = await distrikResponse.json();
                 console.info(districts)
 
@@ -37,7 +36,6 @@
                 const villagePromises = districts.features.map(geometry => {
                     const districtId = geometry.properties.id;
                     return fetch(`https://api.silanny.lannyjayakab.id/api/geospatial/desa?districtId=${districtId}`);
-                    // return fetch(`http://localhost:5000/api/villages?districtId=${districtId}`);
                 });
 
                 // Jalankan semua fetch request secara paralel
