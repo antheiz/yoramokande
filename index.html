@@ -29,6 +29,7 @@
             try {
                 // Memuat data distrik dari API
                 const distrikResponse = await fetch('https://api.silanny.lannyjayakab.id/api/geospatial/distrik');
+                // const distrikResponse = await fetch('http://localhost:5000/api/districts');
                 districts = await distrikResponse.json();
                 console.info(districts)
 
@@ -36,6 +37,7 @@
                 const villagePromises = districts.features.map(geometry => {
                     const districtId = geometry.properties.id;
                     return fetch(`https://api.silanny.lannyjayakab.id/api/geospatial/desa?districtId=${districtId}`);
+                    // return fetch(`http://localhost:5000/api/villages?districtId=${districtId}`);
                 });
 
                 // Jalankan semua fetch request secara paralel
@@ -63,6 +65,18 @@
                 // Pengaturan navigasi dan data peta
                 title: {
                     text: 'Peta Kabupaten'
+                },
+                chart: {
+                    events: {
+                        drilldown: function (e) {
+                            // Mengubah judul saat drilldown
+                            this.setTitle({ text: 'Peta Distrik' });
+                        },
+                        drillup: function (e) {
+                            // Mengembalikan judul saat drillup
+                            this.setTitle({ text: 'Peta Kabupaten' });
+                        }
+                    }
                 },
                 mapNavigation: {
                     enabled: true,
@@ -99,6 +113,14 @@
                         }
                     },
                 }],
+                tooltip: {
+                    formatter: function () {
+                        return '<span style="color: ' + this.point.color + '">&#9679;</span> ' +
+                            '<span style="font-size: 90%;">' + this.point.properties.name + '</span>' + // Nama distrik dengan ukuran font lebih kecil
+                            '<br>Jumlah Penduduk: ' + this.point.value; // Format tooltip
+                    }
+                },
+
                 drilldown: {
                     activeDataLabelStyle: {
                         color: '#FFFFFF',
