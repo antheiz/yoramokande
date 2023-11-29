@@ -105,6 +105,7 @@
                             drilldown: feature.properties.id // Menambahkan referensi drilldown
                         };
                     }),
+                    joinBy: 'id',
                     mapData: districts,
                     name: 'Kabupaten',
                     states: {
@@ -145,6 +146,7 @@
                                     value: feature.properties.jumlah_penduduk,
                                 };
                             }),
+                            joinBy: 'id',
                         };
                     }),
                 },
