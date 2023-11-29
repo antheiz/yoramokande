@@ -101,13 +101,11 @@
                     data: districts.features.map(feature => {
                         return {
                             id: feature.properties.id,
-                            name: feature.properties.name,
                             value: feature.properties.jumlah_penduduk,
                             drilldown: feature.properties.id // Menambahkan referensi drilldown
                         };
                     }),
                     mapData: districts,
-                    joinBy: 'id',
                     name: 'Kabupaten',
                     states: {
                         hover: {
@@ -147,7 +145,6 @@
                                     value: feature.properties.jumlah_penduduk,
                                 };
                             }),
-                            joinBy: 'id'
                         };
                     }),
                 },
