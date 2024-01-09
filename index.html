@@ -53,6 +53,10 @@
                     events: {
                         drilldown: async function (e) {
                             if (!e.seriesOptions) {
+                                var distrikName = e.seriesOptions.name;
+                                // Mengubah judul menjadi "Peta Distrik [Nama Distrik]"
+                                this.setTitle({ text: 'Peta Distrik ' + distrikName });
+                                
                                 const districtId = e.point.drilldown;
                                 await loadVillageData(districtId);
                                 const villageData = villages[districtId].features.map(feature => {
