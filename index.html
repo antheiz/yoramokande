@@ -53,7 +53,7 @@
                     events: {
                         drilldown: async function (e) {
                             if (!e.seriesOptions) {
-                                var distrikName = e.seriesOptions.name;
+                                var distrikName = e.point.name;
                                 // Mengubah judul menjadi "Peta Distrik [Nama Distrik]"
                                 this.setTitle({ text: 'Peta Distrik ' + distrikName });
                                 
