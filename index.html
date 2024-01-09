@@ -25,30 +25,24 @@
         let districts = {};
         let villages = {};
 
+        async function loadVillageData(districts) {
+            for (const geometry of districts.features) {
+                const districtId = geometry.properties.id;
+                const response = await fetch(`https://api.silanny.lannyjayakab.id/api/geospatial/desa?districtId=${districtId}`);
+                villages[districtId] = await response.json();
+                await new Promise(resolve => setTimeout(resolve, 1000)); // Tambahkan delay 1 detik antar permintaan
+            }
+        }
+
         async function loadAllMapData() {
             try {
                 // Memuat data distrik dari API
                 const distrikResponse = await fetch('https://api.silanny.lannyjayakab.id/api/geospatial/distrik');
                 districts = await distrikResponse.json();
-                console.info(districts)
+                console.info(districts);
 
-                // Membuat permintaan data kampung untuk setiap distrik
-                const villagePromises = districts.features.map(geometry => {
-                    const districtId = geometry.properties.id;
-                    return fetch(`https://api.silanny.lannyjayakab.id/api/geospatial/desa?districtId=${districtId}`);
-                });
-
-                // Jalankan semua fetch request secara paralel
-                const responses = await Promise.all(villagePromises);
-
-                // Konversi response ke json dan simpan dalam objek kampung
-                const jsonPromises = responses.map(async (response, index) => {
-                    const districtId = districts.features[index].properties.id;
-                    villages[districtId] = await response.json();
-                });
-
-                // Tunggu semua json conversion selesai
-                await Promise.all(jsonPromises);
+                // Memuat data kampung dengan throttle
+                await loadVillageData(districts);
 
                 // Inisialisasi peta dengan data yang dimuat
                 initializeChart();
@@ -56,6 +50,39 @@
                 console.error("Error loading map data: ", error);
             }
         }
+
+
+        // async function loadAllMapData() {
+        //     try {
+        //         // Memuat data distrik dari API
+        //         const distrikResponse = await fetch('https://api.silanny.lannyjayakab.id/api/geospatial/distrik');
+        //         districts = await distrikResponse.json();
+        //         console.info(districts)
+
+        //         // Membuat permintaan data kampung untuk setiap distrik
+        //         const villagePromises = districts.features.map(geometry => {
+        //             const districtId = geometry.properties.id;
+        //             return fetch(`https://api.silanny.lannyjayakab.id/api/geospatial/desa?districtId=${districtId}`);
+        //         });
+
+        //         // Jalankan semua fetch request secara paralel
+        //         const responses = await Promise.all(villagePromises);
+
+        //         // Konversi response ke json dan simpan dalam objek kampung
+        //         const jsonPromises = responses.map(async (response, index) => {
+        //             const districtId = districts.features[index].properties.id;
+        //             villages[districtId] = await response.json();
+        //         });
+
+        //         // Tunggu semua json conversion selesai
+        //         await Promise.all(jsonPromises);
+
+        //         // Inisialisasi peta dengan data yang dimuat
+        //         initializeChart();
+        //     } catch (error) {
+        //         console.error("Error loading map data: ", error);
+        //     }
+        // }
 
 
         function initializeChart() {
