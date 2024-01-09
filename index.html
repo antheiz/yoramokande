@@ -92,7 +92,15 @@
                             enabled: true,
                             format: '{point.properties.name}'
                         }
-                    }
+                    },
+                    events: {
+                            click: function(event) {
+                                if (event.point && event.point.properties) {
+                                    const desaId = event.point.properties.id;
+                                    window.location.href = `https://silanny.lannyjayakab.id/admin/desa/detail/${desaId}`;
+                                }
+                            }
+                        }
                 },
                 series: [{
                     data: districts.features.map(feature => {
